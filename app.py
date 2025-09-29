@@ -12,6 +12,9 @@ from utils import enviar_factura_email
 from config import conectar, desconectar
 
 
+@app.route("/")
+def home():
+    return redirect(url_for("login"))
 
 
 
