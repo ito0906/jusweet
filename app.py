@@ -3,30 +3,13 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import date, datetime
 from functools import wraps
 import json
-
-import smtplib
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
-from utils import enviar_factura_email
-
 from config import conectar, desconectar
-
-
-@app.route("/")
-def home():
-    return redirect(url_for("login"))
-
-
 
 app = Flask(__name__)
 app.secret_key = "secreto123"
 
+# -------- Decorador de roles --------
 def rol_requerido(*roles_permitidos):
-    """
-    Decorador para proteger rutas según el rol del usuario.
-    Ejemplo:
-        @rol_requerido("dueño", "administrador")
-    """
     def decorador(func):
         @wraps(func)
         def wrapper(*args, **kwargs):
@@ -40,6 +23,9 @@ def rol_requerido(*roles_permitidos):
         return wrapper
     return decorador
 
+# -------- Ruta raíz redirige al login --------
+@app.route("/")
+def home():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
