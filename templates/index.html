@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}Usuarios - JJ Sweet{% endblock %}
+{% block body_class %}usuarios-body{% endblock %}
+
+{% block content %}
+<style>
+
+.content {
+  max-width: 800px;     /* ancho máximo del bloque */
+  margin: 0 auto;       /* centra el bloque en la página */
+  padding: 20px;
+  text-align: center;
+  margin-left: 245px;
+}
+
+.content h1 {
+  font-size: 2.2rem;
+  color: #d63384;
+}
+
+.content p {
+  font-size: 1.2rem;
+  color: #444;
+  line-height: 1.6;
+  margin-top: 15px;
+  margin-bottom: 25px;
+}
+
+</style>
+
+  {% if show_welcome %}
+  <div id="welcome-alert" class="welcome-alert">
+    👋 Bienvenido {{ usuario }} <br>
+    Rol: <strong>{{ rol }}</strong>
+  </div>
+  {% endif %}
+
+  <!-- CONTENIDO -->
+<div class="main-container">
+  <div class="content">
+    <h1>Bienvenido a JJ Sweet 🍬</h1>
+    <p>
+      Esto es JJ SWEET una página de gestión de ventas que permite la organización de las ventas 
+      y el inventario de la microempresa mencionada anteriormente a través de ciertas funciones como lo son 
+      el de generar una factura, registrar un producto, una venta, ver el historial de ventas, el resumen 
+      de ellas y consultar su inventario donde cada elemento se muestra con una interfaz amigable.
+    </p>
+    <img src="{{ url_for('static', filename='img/logo.png') }}" width="300" height="300" alt="Logo">
+  </div>
+</div>
+
+
+    <script>
+    setTimeout(() => {
+      const alert = document.getElementById("welcome-alert");
+      if (alert) {
+        alert.style.opacity = "0";
+        setTimeout(() => alert.remove(), 600); // se elimina del DOM
+      }
+    }, 4000); // 4 segundos visible
+  </script>
+{% endblock %}

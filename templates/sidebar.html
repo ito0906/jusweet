@@ -1,0 +1,37 @@
+<div class="sidebar">
+    <div class="menu">
+        <a href="{{ url_for('ventas') }}">
+            <img src="{{ url_for('static', filename='img/1.jpn.png') }}" alt="Ventas">
+            <span>Ventas</span>
+        </a>
+
+        <a href="{{ url_for('resumen') }}">
+            <img src="{{ url_for('static', filename='img/2.jpn.png') }}" alt="Resumen">
+            <span>Resumen</span>
+        </a>
+
+        <a href="{{ url_for('historial') }}">
+            <img src="{{ url_for('static', filename='img/3.jpn.png') }}" alt="Historial de Ventas">
+            <span>Historial de Ventas</span>
+        </a>
+
+        <a href="{{ url_for('consulta') }}">
+            <img src="{{ url_for('static', filename='img/6.jpn.png') }}" alt="Consulta">
+            <span>Consulta de inventario</span>
+        </a>
+
+        <a href="{{ url_for('usuarios') }}">
+            <img src="{{ url_for('static', filename='img/7.jpn.png') }}" alt="Usuarios">
+            <span>Usuarios</span>
+        </a>
+
+        <a href="{{ url_for('logout') }}">
+            <img src="{{ url_for('static', filename='img/5.jpn.png') }}" alt="Salir">
+            <span>Salir</span>
+        </a>
+    </div>
+
+    <div class="sidebar-logo">
+        <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo">
+    </div>
+</div>

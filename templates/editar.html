@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Editar Producto</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body class="editar-body">
+
+  <h1>✏ Editar Producto</h1>
+
+  <form method="POST" class="form-editar">
+    <label>Nombre:</label>
+    <input type="text" name="nombre" value="{{ producto[1] }}" required>
+
+    <label>Descripción:</label>
+    <input type="text" name="descripcion" value="{{ producto[2] }}">
+
+    
+    <label>Categoría:</label>
+<select name="categoria" required>
+  {% for cat in categorias %}
+    <option value="{{ cat[0] }}" {% if cat[0] == producto[3] %}selected{% endif %}>
+      {{ cat[1] }}
+    </option>
+  {% endfor %}
+</select>
+
+
+    <label>Precio:</label>
+    <input type="number" step="0.01" name="precio" value="{{ producto[4] }}" required>
+
+    <label>Cantidad:</label>
+    <input type="number" name="stock" value="{{ producto[5] }}" required>
+
+    <label>Estado:</label>
+    <select type="text" name="estado" value="{{ producto[6] }}" required>
+        <option value="Activo">Activo</option>
+        <option value="Inactivo">Inactivo</option>
+      </select>
+
+    <button type="submit" class="btn-guardar">Guardar</button>
+    <center>
+      <a href="{{ url_for('consulta') }}"><button type="button" class="btn-cancelar">Cancelar</button></a>
+    </center>  
+  </form>
+
+</body>
+</html>

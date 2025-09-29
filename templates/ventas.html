@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+
+{% block title %}Ventas - Facturación{% endblock %}
+{% block body_class %}ventas-body{% endblock %}
+
+{% block content %}
+<h1> 🛒 Sistema de Ventas</h1>
+
+<form action="{{ url_for('factura') }}" method="POST">
+  <h3>Datos del Cliente</h3>
+  <input type="text" id="cliente" name="cliente" placeholder="Nombre del Cliente" required>
+  <input type="text" id="documento" name="documento" placeholder="CC/NIT" required>
+  <input type="text" id="telefono" name="telefono" placeholder="Teléfono del Cliente">
+  <input type="email" id="correo" name="correo" placeholder="Correo del Cliente" required>
+
+  <input type="text" id="direccion" name="direccion" placeholder="Dirección del Cliente">
+  <input type="date" id="fecha" name="fecha" value="{{ fecha_hoy }}" required>
+
+  <h3>Agregar Productos</h3>
+  <!-- Buscador -->
+  <input type="text" id="buscarProducto" placeholder="🔍 Buscar producto...">
+
+  <!-- Selector -->
+  <select id="selectProducto">
+    {% for p in productos %}
+      <option value="{{ p[0] }}" data-precio="{{ p[2] }}">{{ p[1] }} - ${{ "%.2f"|format(p[2]) }}</option>
+    {% endfor %}
+  </select>
+  <input type="number" id="cantidad" placeholder="Cantidad" min="1">
+  <button type="button" id="agregarBtn">➕ Agregar</button>
+
+  <!-- Tabla de productos -->
+  <table border="1" id="tablaProductos">
+    <thead>
+      <tr>
+        <th>Producto</th>
+        <th>Precio</th>
+        <th>Cantidad</th>
+        <th>Total</th>
+        <th>Quitar</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <!-- Aquí mandamos los productos -->
+  <input type="hidden" name="productos_json" id="productos_json">
+
+  <button type="submit">🧾 Generar Factura</button>
+</form>
+
+<script>
+  const buscarInput = document.getElementById("buscarProducto");
+  const selectProducto = document.getElementById("selectProducto");
+  const cantidadInput = document.getElementById("cantidad");
+  const agregarBtn = document.getElementById("agregarBtn");
+  const tablaBody = document.querySelector("#tablaProductos tbody");
+  const productosJSON = document.getElementById("productos_json");
+
+  let productosSeleccionados = [];
+
+  // Filtrar productos en el select
+  buscarInput.addEventListener("keyup", function() {
+    const filtro = this.value.toLowerCase();
+    for (let option of selectProducto.options) {
+      const texto = option.text.toLowerCase();
+      option.style.display = texto.includes(filtro) ? "" : "none";
+    }
+  });
+
+  // Agregar producto a la tabla
+  agregarBtn.addEventListener("click", function() {
+    const option = selectProducto.selectedOptions[0];
+    const id = option.value;
+    const nombre = option.text;
+    const precio = parseFloat(option.dataset.precio);
+    const cantidad = parseInt(cantidadInput.value);
+
+    if (!cantidad || cantidad < 1) return alert("Ingrese cantidad válida");
+
+    const total = precio * cantidad;
+
+    // Guardar en array
+    productosSeleccionados.push({id, nombre, precio, cantidad, total});
+
+    // Mostrar en tabla
+    const fila = document.createElement("tr");
+    fila.innerHTML = `
+      <td>${nombre}</td>
+      <td>$${precio.toFixed(2)}</td>
+      <td>${cantidad}</td>
+      <td>$${total.toFixed(2)}</td>
+      <td><button type="button" class="eliminarBtn">❌</button></td>
+    `;
+    tablaBody.appendChild(fila);
+
+    // Actualizar input oculto
+    productosJSON.value = JSON.stringify(productosSeleccionados);
+
+    // Reset cantidad
+    cantidadInput.value = "";
+  });
+
+  // Eliminar producto
+  tablaBody.addEventListener("click", function(e) {
+    if (e.target.classList.contains("eliminarBtn")) {
+      const fila = e.target.closest("tr");
+      const index = Array.from(tablaBody.children).indexOf(fila);
+      productosSeleccionados.splice(index, 1);
+      fila.remove();
+      productosJSON.value = JSON.stringify(productosSeleccionados);
+    }
+  });
+
+  // Autocompletar cliente al escribir documento
+  document.getElementById("documento").addEventListener("blur", async function() {
+    const doc = this.value;
+    if (doc.length > 0) {
+      const resp = await fetch(`/proyectojjsweet/buscar_cliente?documento=${doc}`);
+      const data = await resp.json();
+      if (data.existe) {
+        document.getElementById("cliente").value = data.nombre || "";
+        document.getElementById("telefono").value = data.telefono || "";
+        document.getElementById("direccion").value = data.direccion || "";
+        document.getElementById("correo").value = data.correo || "";   // ✅ Nuevo
+      }
+    }
+  });
+</script>
+{% endblock %}
+
+
+

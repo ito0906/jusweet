@@ -1,0 +1,950 @@
+body {
+  font-family: Arial, sans-serif;
+  min-height: 100vh;
+  background: #fff;
+  background-size: cover;
+}
+
+
+.welcome-alert {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #4CAF50; /* verde */
+  color: white;
+  padding: 12px 18px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  font-size: 14px;
+  z-index: 1000;
+  opacity: 1;
+  transition: opacity 0.6s ease;
+}
+
+h1 {
+  margin: 20px 0;
+  font-size: 2rem;
+  color: #2d3748;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.8);
+  padding: 10px 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  font-size: 2rem;
+  color: #2c3e50;
+  margin-bottom: 20px;
+  background: rgba(255, 255, 255, 0.85);
+  padding: 12px 25px;
+  border-radius: 12px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+  text-align: center;
+}
+
+/* --------- ALERTAS --------- */
+.alert {
+  position: fixed;
+  top: 20px;            
+  right: 20px;          
+  background: #f8d7da;
+  color: #721c24;
+  padding: 12px 18px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  z-index: 9999;
+  font-size: 14px;
+  font-weight: 500;
+  max-width: 350px;
+  text-align: left;     
+  opacity: 0;
+  animation: fadeInOut 4s ease forwards; /* 👈 animación automática */
+}
+
+/* Animación: entra, espera y luego se desvanece */
+@keyframes fadeInOut {
+  0% { opacity: 0; transform: translateY(-10px); }
+  10% { opacity: 1; transform: translateY(0); }
+  80% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-10px); }
+}
+
+
+
+.content .alert {
+  position: relative;
+  margin: 10px auto;
+}
+
+/* Colores por categoría */
+.alert.success {
+  font-weight: bold; 
+  background: #d4edda;
+  color: #155724;
+  border-left: 6px solid #28a745;
+}
+
+.alert.error {
+  font-weight: bold; 
+  background: #f8d7da;
+  color: #721c24;
+  border-left: 6px solid #dc3545;
+}
+
+.alert.warning {
+  font-weight: bold; 
+  background: #fff3cd;
+  color: #856404;
+  border-left: 6px solid #ffc107;
+}
+
+/* Animación: entra, espera y luego se desvanece */
+@keyframes fadeInOut {
+  0% { opacity: 0; transform: translateY(-10px); }
+  10% { opacity: 1; transform: translateY(0); }
+  80% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-10px); }
+}
+
+/* === Layout General === */
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  display: flex;
+  background: #fff;
+  min-height: 100vh;
+}
+
+/* === ESTILOS REGISTRO === */
+
+.registro-body {
+    display: flex;
+    justify-content: center;   /* centra horizontal */
+    align-items: center;       /* centra vertical */
+    height: 100vh;             /* ocupa toda la pantalla */
+    margin: 0;
+    background: #f9f9f9;
+}
+
+.registro-container {
+    max-width: 400px;          /* ancho máximo */
+    width: 100%;
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+}
+
+.registro-container form {
+    width: 80%;           /* asegura que el formulario use todo el ancho */
+}
+
+.registro-container h2 {
+    text-align: center;    /* título centrado */
+}
+
+/* === Sidebar === */
+.sidebar {
+  width: 220px;
+  background: #0c0661;
+  color: #333;
+  height: 100vh;
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 2px 0 8px rgba(0,0,0,0.15);
+  left: 0;
+  top: 0;
+  padding-top: 20px;   
+}
+
+.menu {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding-top: 20px;
+}
+
+.sidebar .menu a {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 12px 20px;
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+
+.sidebar .menu a:hover {
+  background: #34495e;
+}
+
+.menu img {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.sidebar-logo {
+  padding: 20px;
+  text-align: center;
+}
+
+.sidebar-logo img {
+  width: 70%;
+  border-radius: 50%;
+  background: white;
+  padding: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+/* === Contenido principal === */
+.content {
+  padding: 20px;
+  margin-left: 220px; /* ancho del sidebar */
+  transition: margin-left 0.3s;
+}
+
+
+
+ /* ESTILOS VENTAS  */
+.ventas-body {
+  font-family: "Segoe UI", Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+/* Título */
+.ventas-body h1 {
+  margin: 20px 0;
+  font-size: 2rem;
+  color: #2d3748;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.8);
+  padding: 10px 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+/* Formulario */
+form {
+  background: rgba(255, 255, 255, 0.9); /* translúcido para que se vea el fondo */
+  padding: 25px 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  max-width: 700px;
+  width: 90%;
+  margin: 25px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* Subtítulos */
+form h3 {
+  margin-bottom: 8px;
+  color: #2b6cb0;
+  font-size: 1.2rem;
+  border-bottom: 2px solid #e2e8f0;
+  padding-bottom: 5px;
+}
+
+/* Inputs */
+.grupo {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+form input {
+  flex: 1;
+  padding: 10px 12px;
+  border: 1px solid #cbd5e0;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  background: #fff;
+  transition: all 0.2s ease;
+}
+
+form input:focus {
+  border-color: #3182ce;
+  box-shadow: 0 0 6px rgba(49, 130, 206, 0.4);
+  outline: none;
+}
+
+/* Botón */
+form button {
+  background: #3182ce;
+  color: white;
+  padding: 12px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.25s ease;
+}
+
+form button:hover {
+  background: #2b6cb0;
+}
+
+form button:active {
+  background: #2c5282;
+}
+
+/* === ESTILOS FACTURA === */
+.factura-body {
+  max-width: 600px;
+  margin: 30px auto;
+  padding: 20px;
+  border: 2px solid #333;
+  border-radius: 10px;
+  background: #fff;
+}
+
+.factura h2 { text-align: center; }
+table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
+
+.total { font-weight: bold; }
+
+
+/* === ESTILOS INVENTARIO === */
+.inventario-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; /* centra verticalmente */
+  padding: 30px 15px;
+  min-height: 100vh;
+  text-align: center; /* asegura alineación de texto */
+}
+
+/* === TÍTULO === */
+.inventario-body h1 {
+  font-size: 2.5rem;
+  color: #2c3e50;
+  text-align: center;
+  margin-bottom: 15px;
+  background: rgba(255, 255, 255, 0.8);
+  padding: 10px 20px;
+  border-radius: 12px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+}
+
+/* === ENLACES === */
+.inventario-body a {
+  display: inline-block;
+  margin: 12px 0;
+  padding: 10px 20px;
+  text-decoration: none;
+  background: #3498db;
+  color: white;
+  border-radius: 8px;
+  transition: background 0.3s ease;
+}
+
+.inventario-body a:hover {
+  display: inline-block;
+  margin: 12px 0;
+  padding: 10px 20px;
+  background: #1d07df;
+  text-decoration: none;
+  color: white;
+  border-radius: 8px;
+  transition: background 0.3s ease;
+}
+
+
+/* === FORMULARIO === */
+.formulario-container {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 25px;
+  margin: 20px auto; /* centrado horizontal */
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  justify-content: center; /* contenido al centro */
+
+}
+
+.formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.formulario input,
+.formulario select {
+  padding: 12px;
+  border: 1px solid #dcdde1;
+  border-radius: 8px;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.2s ease-in-out;
+}
+
+.formulario input:focus,
+.formulario select:focus {
+  border-color: #3498db;
+  box-shadow: 0 0 6px rgba(52,152,219,0.4);
+}
+
+/* === BOTÓN === */
+.btn-agregar {
+  padding: 12px;
+  border: none;
+  background: #27ae60;
+  color: white;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.btn-agregar:hover {
+  background: #219150;
+}
+
+/* === ESTILOS CONSULTA === */
+
+/* === CONTENEDOR  === */
+.table-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;   /* centra horizontalmente el contenido */
+  justify-content: center;
+  margin-left: 50px; 
+  padding: 30px 15px;
+}
+
+/* === TÍTULO === */
+
+.table-container h1 {
+  margin: auto;   /* reduce el espacio arriba y abajo */
+  padding: 5px 0;   /* reduce el espacio interno */
+  font-size: 2.3rem;
+  color: #2c3e50;
+  margin: 20px 0;
+  background: rgba(255, 255, 255, 0.85);
+  padding: 10px 20px;
+  border-radius: 10px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+  text-align: center;
+}
+
+/* === ENLACES === */
+.table-container .agregar {
+  display: inline-block;
+  margin: 12px 0;
+  padding: 8px 15px;
+  text-decoration: none;
+  background: #3498db;
+  color: white;
+  border-radius: 8px;
+  transition: background 0.3s ease;
+  font-size: 0.95rem;
+}
+
+.table-container .agregar:hover {
+  background: #2980b9;
+}
+
+/* Centrar la tabla de consulta */
+.consulta-.table-container table,
+.consulta-.table-container table {
+  margin: 20px auto !important; 
+  float: none !important;     
+}
+
+
+
+.categoria-row {
+  background: #f1f1f1;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* === TABLA === */
+table {
+  width: 95%;
+  max-width: 1100px;
+  border-collapse: collapse;
+  margin: 20px 0;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+thead {
+  background: #2c3e50;
+  color: white;
+}
+
+thead th {
+  padding: 14px;
+  font-size: 1rem;
+  text-align: center;
+}
+
+tbody td {
+  padding: 12px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+  font-size: 0.95rem;
+}
+
+/* Filas alternadas */
+tbody tr:nth-child(even) {
+  background: rgba(255, 255, 255, 0.969);
+}
+
+/* Hover fila */
+tbody tr:hover {
+  background: rgba(52, 152, 219, 0.15);
+  transition: background 0.2s ease-in-out;
+}
+
+/* === BOTONES DE ACCIÓN === */
+td a {
+  margin: 0 5px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  text-decoration: none;
+}
+
+/* Asegura que los botones queden en línea y centrados dentro de la celda */
+.acciones {
+  display: inline-flex;
+  align-items: center;
+}
+
+.btn-editar {
+  background: #f39c12;
+  color: white;
+  padding: 6px 10px;
+  border-radius: 6px;
+}
+
+.btn-editar:hover {
+  background: #d68910;
+}
+
+.btn-eliminar {
+  background: #e74c3c;
+  color: white;
+  padding: 6px 10px;
+  border-radius: 6px;
+}
+
+.btn-eliminar:hover {
+  background: #c0392b;
+}
+
+/* === CONTENEDOR EDITAR === */
+
+.editar-body {
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Centrado vertical */
+  align-items: center;     /* Centrado horizontal */
+  min-height: 100vh;
+  margin: 0;
+  background-color: #f4f4f4;
+    }
+
+    .editar-body h1 {
+  font-size: 2.5rem;
+  color: #2c3e50;
+  text-align: center;
+  margin-bottom: 15px;
+  background: rgba(255, 255, 255, 0.8);
+  padding: 10px 20px;
+  border-radius: 12px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+}
+
+    h1 {
+      margin: 20px 0;
+      text-align: center;
+    }
+
+    .form-editar {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 300px;             /* Ancho fijo */
+  padding: 20px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+    label {
+        text-align: left;
+  color: #2b6cb0;
+  font-weight: bold;
+       font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    }
+
+    .editar-body select {
+  padding: 12px;
+  border: 1px solid #dcdde1;
+  border-radius: 8px;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.2s ease-in-out;
+}
+
+    
+    .btn-guardar {
+      padding:  6px 12px;
+      background-color: green; 
+      color: #fff;
+      border: none; 
+      border-radius: 12px;
+      font-size: 16px; 
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .btn-guardar:hover {
+      background-color: #0d6402f8;
+    }
+
+    .btn-cancelar {
+      padding:  6px 12px;
+      background: #dc3545;
+      color: #fff;
+      border: none; 
+      border-radius: 12px;
+      font-size: 16px; 
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .btn-cancelar:hover {
+       background: #c82333;
+    }
+
+/* === ESTILOS FACTURA === */
+
+    #factura {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+}
+
+.factura-box {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  max-width: 700px;
+  width: 100%;
+  font-family: Arial, sans-serif;
+}
+
+.factura-box h2 {
+  text-align: center;
+  color: #2c3e50;
+  margin-bottom: 15px;
+}
+
+.factura-box table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+.factura-box th, .factura-box td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+.factura-box th {
+  background: #2c3e50;
+  color: #fff;
+}
+
+.factura-box .total {
+  text-align: right;
+  margin-top: 15px;
+  color: #27ae60;
+}
+
+.btn-imprimir {
+  margin-top: 15px;
+  padding: 10px 20px;
+  background: #3498db;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.btn-imprimir:hover {
+  background: #2980b9;
+}
+
+
+/* === ESTILOS USUARIOS === */
+
+/* === TÍTULO === */
+
+.usuarios-body {
+  display: flex;
+  text-align: center;
+  font-family: Arial, sans-serif;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px 15px;
+  
+}
+
+/* === CONTENIDO === */
+
+.usuarios-content {
+  text-align: center; /* centra todo lo que está dentro */
+}
+
+.usuarios-table {
+  margin: 20px auto; 
+  border-collapse: collapse;
+  width: 80%; 
+}
+
+.usuarios-table th,
+.usuarios-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center; 
+}
+
+.usuarios-button {
+  background: #dc3545;   
+  color: #fff;
+  border-radius: 6px;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.3s ease;
+}
+
+.usuarios-button:hover {
+  background: #c82333;   
+}
+.usuarios-form {
+  display: inline-block; 
+  margin: 0;
+  padding: 0;
+  background: transparent; 
+  border: none; 
+}
+
+
+/* === ESTILOS HISTORIAL === */
+
+.historial-body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.historial-table {
+    width: 90%;
+    margin: 20px auto;
+    border-collapse: collapse;
+ }
+.historial-table th,
+.historial-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+ }
+
+.historial-body .acciones {
+    display: flex;
+    justify-content: center;  /* centra dentro de la celda */
+    align-items: center;
+    gap: 10px; /* espacio entre botones */
+}
+
+
+ .historial-body .view-btn {
+    text-decoration: none;
+    color: white;              
+    background: #007bff;       
+    border-radius: 6px;
+    padding: 6px 12px;
+    display: inline-block;
+    font-size: 1rem;
+    transition: background 0.3s ease;
+ }
+
+.historial-body .delete-btn {
+    text-decoration: none;
+    color: white;              
+    background: #e72604;       
+    border-radius: 6px;
+    padding: 6px 12px;
+    display: inline-block;
+    font-size: 1rem;
+    transition: background 0.3s ease;
+ }
+
+.historial-body .view-btn:hover {
+    background: #0056b3;       
+}
+
+.historial-body .delete-btn:hover {
+    background: #8f1201;       
+}
+
+.historial-body .fact_anulada {
+  display: inline-block;
+  margin: 12px 0;
+  padding: 10px 20px;
+  text-decoration: none;
+  background: #1b1392;
+  color: white;
+  border-radius: 8px;
+  transition: background 0.3s ease;
+}
+
+.historial-body .fact_anulada:hover {
+  background: #079adf;
+}
+
+
+/* === MODAL === */
+.historial-body .modal {
+  display: none;              
+  position: fixed;
+  inset: 0;                   
+  background: rgba(0,0,0,0.55);
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.historial-body .modal.show {
+  display: flex; /* Se activa con JS al agregar la clase 'show' */
+}
+
+.historial-body .modal-content {
+  width: 380px;
+  max-width: calc(100% - 40px);
+  background: #fff;
+  padding: 22px;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+  text-align: center;
+  animation: fadeIn 0.2s ease;
+}
+
+/* Contenedor de botones */
+.historial-body .modal-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.historial-body .modal-buttons form {
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+}
+
+
+/* Botones */
+.historial-body .modal-buttons button {
+  min-width: 120px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  transition: background 0.3s ease;
+  color: #fff;
+}
+
+.historial-body .modal-content button,
+.historial-body .modal-content form,
+.historial-body .modal-buttons > * {
+  width: auto !important;
+  max-width: none !important;
+  box-sizing: border-box;
+}
+
+/* Cancelar */
+.historial-body .btn-cancel {
+  background: #6c757d;
+}
+.historial-body .btn-cancel:hover {
+  background: #5a6268;
+}
+
+/* Eliminar */
+.historial-body .btn-delete {
+  background: #dc3545;
+}
+.historial-body .btn-delete:hover {
+  background: #c82333;
+}
+
+/* El form no debe crear caja blanca */
+.historial-body .modal-content form {
+  display: inline;
+  margin: 0;
+  padding: 0;
+  background: none;
+  border: none;
+  box-shadow: none;
+}
+
+/* Animación */
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@media print {
+    /* Ocultar todo lo que no queremos imprimir */
+    body * {
+        visibility: hidden;
+    }
+    .table-container, .table-container * {
+        visibility: visible;
+    }
+    .table-container {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+    }
+    /* Opcional: ajustar la tabla */
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+    th, td {
+        border: 1px solid #000;
+        padding: 8px;
+        text-align: center;
+    }
+}
+
+
+

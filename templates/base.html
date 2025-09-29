@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}JJ Sweet{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body class="{% block body_class %}{% endblock %}">
+
+  <div class="sidebar">
+    <div class="menu">
+      {% if request.endpoint != 'index' %}
+      <a href="{{ url_for('index') }}">
+        <img src="{{ url_for('static', filename='img/8.jpn.png') }}" alt="Menu">
+        <span>Menú principal</span>
+      </a>
+      {% endif %}
+      {% if request.endpoint != 'ventas' %}
+      <a href="{{ url_for('ventas') }}">
+        <img src="{{ url_for('static', filename='img/1.jpn.png') }}" alt="Ventas">
+        <span>Ventas</span>
+      </a>
+      {% endif %}
+      {% if request.endpoint != 'resumen' %}
+      <a href="{{ url_for('resumen') }}">
+        <img src="{{ url_for('static', filename='img/2,jpn.png') }}" alt="Resumen">
+        <span>Resumen</span>
+      </a>
+      {% endif %}
+      {% if request.endpoint != 'historial' %}
+      <a href="{{ url_for('historial') }}">
+        <img src="{{ url_for('static', filename='img/3.jpn.png') }}" alt="Historial">
+        <span>Historial-Ventas</span>
+      </a>
+      {% endif %}
+      {% if request.endpoint != 'consulta' %}
+      <a href="{{ url_for('consulta') }}">
+        <img src="{{ url_for('static', filename='img/6.jpn.png') }}" alt="Consulta">
+        <span>Consultar</span>
+      </a>
+      {% endif %}
+      {% if request.endpoint != 'usuarios' %}
+      <a href="{{ url_for('usuarios') }}">
+        <img src="{{ url_for('static', filename='img/7.jpn.png') }}" alt="Usuarios">
+        <span>Usuarios</span>
+      </a>
+      {% endif %}
+      {% if request.endpoint != 'logout' %}
+      <a href="{{ url_for('logout') }}">
+        <img src="{{ url_for('static', filename='img/5.jpn.png') }}" alt="Salir">
+        <span>Salir</span>
+      </a>
+      {% endif %}
+    </div>
+
+    <div class="sidebar-logo">
+      <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo">
+    </div>
+  </div>
+
+  <!-- Mensajes flash -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert {{ category }}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+  <div class="content">
+    {% block content %}{% endblock %}
+  </div>
+
+</body>
+</html>
+

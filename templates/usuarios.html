@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}Usuarios - JJ Sweet{% endblock %}
+{% block body_class %}usuarios-body{% endblock %}
+
+{% block content %}
+<h1>👥 Usuarios Registrados</h1>
+
+<table class="usuarios-table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Nombre</th>
+      <th>Correo</th>
+      <th>Rol</th>
+      <th>Estado</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for u in usuarios %}
+    <tr>
+      <td>{{ u[0] }}</td>
+      <td>{{ u[1] }}</td>
+      <td>{{ u[2] }}</td>
+      <td>{{ u[3] }}</td> <!-- CORREGIDO: Rol -->
+      <td>{{ 'Activo' if u[4] else 'Inactivo' }}</td> <!-- CORREGIDO: Estado -->
+      <td>
+        <form class="usuarios-form" action="{{ url_for('eliminar_usuario', id=u[0]) }}" method="post">
+          <button type="submit" class="usuarios-button">❌ Eliminar</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

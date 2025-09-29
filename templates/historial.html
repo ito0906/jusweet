@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+
+{% block title %}Historial de Ventas{% endblock %}
+
+{% block body_class %}historial-body{% endblock %}
+
+{% block content %}
+  <h1>📜 Historial de Ventas</h1>
+  <div style="text-align:center; margin-bottom: 20px;">
+    <button type="button" id="abrirFiltro" class="btn">🔍 Filtrar por fecha</button>
+  </div>
+
+  <table class="historial-table">
+      <thead>
+          <tr>
+              <th>ID Venta</th>
+              <th>Fecha y Hora</th>
+              <th>Condición</th>
+              <th>Pago</th>
+              <th>Total</th>
+              <th>Cliente</th>
+              <th>Correo</th>
+              <th>Acciones</th>
+          </tr>
+      </thead>
+      <tbody>
+          {% for v in ventas %}
+          <tr>
+              <td>{{ v[0] }}</td>
+              <td>
+                {% if v[1] %}
+                  {{ v[1].strftime("%Y-%m-%d %H:%M:%S") }}
+                {% endif %}
+              </td>
+              <td>{{ v[2] }}</td>
+              <td>{{ v[3] }}</td>
+              <td>${{ "%.2f"|format(v[4]) }}</td>
+              <td>{{ v[5] }}</td>
+              <td>{{ v[6] }}</td>
+              <td>
+                <div class="acciones">
+                  <a href="{{ url_for('ver_factura', id_ven=v[0]) }}" class="view-btn">Ver</a>
+                  <a href="#" class="delete-btn" data-id="{{ v[0] }}">Eliminar</a>
+                </div>
+              </td>
+          </tr>
+          {% endfor %}
+      </tbody>
+  </table>
+
+  <main style="text-align:center; margin-top:20px;">
+      <a href="{{ url_for('facturas_anuladas') }}" class="fact_anulada">🏠 Facturas anuladas</a>
+  </main>
+
+  <!-- Modal Confirmación -->
+  <div id="confirmModal" class="modal" aria-hidden="true">
+    <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <h2 id="modalTitle">¿Eliminar factura?</h2>
+      <p>Esta acción no se puede deshacer.</p>
+
+      <div class="modal-buttons">
+        <button type="button" class="btn-cancel">Cancelar</button>
+
+        <!-- form para enviar el POST -->
+        <form id="deleteForm" method="POST" style="display:inline-block; margin:0; padding:0;">
+          <button type="submit" class="btn-delete">Eliminar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Filtro -->
+  <div id="filtroModal" class="modal" style="display:none;">
+    <div class="modal-content">
+      <h2>Filtrar ventas por fecha</h2>
+      <form method="POST">
+        <label>Desde:</label>
+        <input type="date" name="fecha_inicio" value="{{ fecha_inicio }}">
+
+        <label>Hasta:</label>
+        <input type="date" name="fecha_fin" value="{{ fecha_fin }}">
+
+        <div style="margin-top:15px;">
+          <button type="submit" class="btn">Aplicar</button>
+          <button type="button" id="cerrarFiltro" class="btn-cancel">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const modal = document.getElementById("confirmModal");
+    const deleteForm = document.getElementById("deleteForm");
+
+    document.querySelectorAll(".delete-btn").forEach(btn => {
+      btn.addEventListener("click", e => {
+        e.preventDefault();
+        const id_ven = btn.dataset.id;
+        deleteForm.setAttribute("action", "{{ url_for('eliminar_venta', id_ven=0) }}".replace("0", id_ven));
+        modal.style.display = "flex";
+      });
+    });
+
+    document.querySelector(".btn-cancel").onclick = () => modal.style.display = "none";
+
+    modal.onclick = e => { if (e.target === modal) modal.style.display = "none"; };
+
+    const filtroModal = document.getElementById("filtroModal");
+    const abrirFiltro = document.getElementById("abrirFiltro");
+    const cerrarFiltro = document.getElementById("cerrarFiltro");
+
+    abrirFiltro.onclick = () => filtroModal.style.display = "flex";
+    cerrarFiltro.onclick = () => filtroModal.style.display = "none";
+    filtroModal.onclick = e => { if (e.target === filtroModal) filtroModal.style.display = "none"; };
+  </script>
+{% endblock %}

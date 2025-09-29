@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Facturas Anuladas</title>
+    <style>
+        body {
+            background-color: #fff5f5;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            color: #b22222;
+            margin: 20px auto;
+            font-size: 2rem;
+            background: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+            text-align: center;
+        }
+
+        .table-container {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .anuladas-table {
+            width: 90%;
+            max-width: 1100px;
+            border-collapse: collapse;
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .anuladas-table th, .anuladas-table td {
+            border: 1px solid #b22222;
+            padding: 10px;
+            text-align: center;
+            font-size: 0.95rem;
+        }
+
+        .anuladas-table th {
+            background-color: #e04c4c;
+            font-weight: bold;
+            color: white;
+        }
+
+        .anuladas-table tr:hover {
+            background: #ffeaea;
+            transition: background 0.2s ease-in-out;
+        }
+
+        .acciones a {
+            text-decoration: none;
+            color: #b22222;
+            font-weight: bold;
+            margin: 0 5px;
+        }
+
+        .botones {
+            margin: 20px auto;
+            text-align: center;
+        }
+
+        .botones a {
+            display: inline-block;
+            margin: 10px;
+            padding: 10px 15px;
+            border-radius: 8px;
+            background-color: #b22222;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .botones a:hover {
+            background-color: #800000;
+        }
+        .btn-ver {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 6px;
+            background: #ff8a8a;
+            color: white;
+            font-weight: bold;
+            text-decoration: none;
+            transition: background 0.3s;
+        }
+
+        .btn-ver:hover {
+            background: #ec5454;
+        }
+
+        .modal {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.5);
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  width: 300px;
+  text-align: center;
+}
+.btn {
+  display: inline-block;
+  padding: 8px 14px;
+  border-radius: 6px;
+  background: #b22222;
+  color: white;
+  font-weight: bold;
+  text-decoration: none;
+  transition: background 0.3s;
+  cursor: pointer;
+}
+.btn:hover {
+  background: #800000;
+}
+.btn-cancel {
+  margin-left: 10px;
+  background: gray;
+}
+
+      
+    </style>
+</head>
+<body>
+    <h1>🛑 Facturas Anuladas</h1>
+    <div style="text-align:center; margin-bottom: 20px;">
+  <button type="button" id="abrirFiltro" class="btn">🔍 Filtrar por fecha</button>
+</div>
+
+
+    <div class="table-container">
+        <table class="anuladas-table">
+            <thead>
+                <tr>
+                    <th>ID Venta</th>
+                    <th>Fecha</th>
+                    <th>Condición</th>
+                    <th>Pago</th>
+                    <th>Total</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for v in ventas %}
+                <tr>
+                    <td>{{ v[0] }}</td>
+                    <td>
+                        {% if v[1] %}
+                            {{ v[1].strftime("%Y-%m-%d %H:%M:%S") }}
+                        {% endif %}
+                    </td>
+                    <td>{{ v[2] }}</td>
+                    <td>{{ v[3] }}</td>
+                    <td>${{ "%.2f"|format(v[4]) }}</td>
+                    <td>❌ Anulada</td>
+                    <td class="acciones">
+                        <a href="{{ url_for('ver_factura', id_ven=v[0]) }}" class="btn-ver">👁️ Ver</a>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="7">No hay facturas anuladas</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div id="filtroModal" class="modal" style="display:none;">
+  <div class="modal-content">
+    <h2>Filtrar facturas anuladas</h2>
+    <form method="POST">
+      <label>Desde:</label>
+      <input type="date" name="fecha_inicio" value="{{ fecha_inicio }}">
+
+      <label>Hasta:</label>
+      <input type="date" name="fecha_fin" value="{{ fecha_fin }}">
+
+      <div style="margin-top:15px;">
+        <button type="submit" class="btn">Aplicar</button>
+        <button type="button" id="cerrarFiltro" class="btn-cancel">Cancelar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+    <div class="botones">
+        <a href="{{ url_for('historial') }}">📜 Volver al historial</a>
+        <a href="{{ url_for('index') }}">🏠 Menú principal</a>
+    </div>
+</body>
+<script>
+  const filtroModal = document.getElementById("filtroModal");
+  const abrirFiltro = document.getElementById("abrirFiltro");
+  const cerrarFiltro = document.getElementById("cerrarFiltro");
+
+  abrirFiltro.onclick = () => filtroModal.style.display = "flex";
+  cerrarFiltro.onclick = () => filtroModal.style.display = "none";
+  filtroModal.onclick = e => { if (e.target === filtroModal) filtroModal.style.display = "none"; };
+</script>
+
+</html>

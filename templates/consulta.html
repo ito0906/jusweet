@@ -1,0 +1,213 @@
+{% extends "base.html" %}
+
+{% block title %}Consulta de Productos - JJSweet{% endblock %}
+
+{% block content %}
+
+<style>
+    /* Estilos básicos para el modal */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.6);
+    }
+    .modal-content {
+        background: #fff;
+        margin: 10% auto;
+        text-align: center;
+        box-shadow: 0px 4px 10px rgba(0,0,0,0.3);
+        width: 320px;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        font-size: 14px;
+    }
+    .close {
+        float: right;
+        font-size: 20px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+    button {
+        padding: 8px 16px;
+        border: none;
+        border-radius: 6px;
+        background: #007bff;
+        color: white;
+        cursor: pointer;
+    }
+    button:hover {
+        background: #0056b3;
+    }
+    .filtro-btn {
+        margin: 15px 0;
+        display: inline-block;
+        background: #28a745;
+    }
+    .filtro-btn:hover {
+        background: #1e7e34;
+    }
+</style>
+
+<div class="table-container">
+    <h1>Consulta de Inventario</h1>
+
+    <center>
+        <a href="{{ url_for('inventario') }}" class="agregar">➕ Agregar Producto</a>
+        <button type="button" class="filtro-btn" onclick="abrirFiltro()">📂 Filtrar por Categoría</button>
+<button type="button" class="filtro-btn" style="background:#17a2b8;" onclick="generarPDF()">📄 Generar PDF</button>
+    </center>  
+    
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Categoría</th>
+                <th>Precio</th>
+                <th>Stock</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for p in productos %}
+            <tr>
+                <td>{{ p[0] }}</td>
+                <td>{{ p[1] }}</td>
+                <td>{{ p[2] }}</td>
+                <td>{{ p[3] }}</td>
+                <td>{{ p[4] }}</td>
+                <td>{{ p[5] }}</td>
+                <td>{{ p[6] }}</td>
+                <td>
+                    <div class="acciones">
+                        <a href="{{ url_for('editar_producto', id_prod=p[0]) }}" class="btn-editar">Editar</a>
+                        <a href="{{ url_for('eliminar_producto', id_prod=p[0]) }}" class="btn-eliminar">Eliminar</a>
+                        <button type="button" onclick="abrirModal('{{ p[0] }}')">Stock</button>
+                    </div>         
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Modal para agregar stock -->
+<div id="stockModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="cerrarModal()">&times;</span>
+        <h3>Agregar Stock</h3>
+        <form action="{{ url_for('agregar_stock') }}" method="POST" class="modal-form">
+             <input type="hidden" name="id_prod" id="id_prod_modal">
+             <label for="cantidad">Cantidad:</label>
+             <input type="number" name="cantidad" id="cantidad" min="1" required>
+             <br><br>
+             <button type="submit">Actualizar</button>
+        </form>
+    </div>
+</div>
+
+<!-- Modal para filtrar categorías -->
+<div id="filtroModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="cerrarFiltro()">&times;</span>
+        <h3>Filtrar por Categoría</h3>
+        <form action="{{ url_for('consulta') }}" method="GET">
+        <label for="categoria">Categoría:</label>
+        <select name="categoria" id="categoria" required>
+        <option value="">-- Selecciona --</option>
+        {% for c in categorias %}
+        <option value="{{ c[0] }}">{{ c[1] }}</option>
+        {% endfor %}
+        </select>
+
+        <br><br>
+            <button type="submit">Aplicar</button>
+        </form>
+    </div>
+</div>
+
+<!-- jsPDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<!-- jsPDF AutoTable -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+
+
+<script>
+    // Abrir modal de stock
+    function abrirModal(idProd) {
+        document.getElementById("id_prod_modal").value = idProd;
+        document.getElementById("stockModal").style.display = "block";
+    }
+    function cerrarModal() {
+        document.getElementById("stockModal").style.display = "none";
+    }
+
+    // Abrir modal de filtro
+    function abrirFiltro() {
+        document.getElementById("filtroModal").style.display = "block";
+    }
+    function cerrarFiltro() {
+        document.getElementById("filtroModal").style.display = "none";
+    }
+
+    // Cerrar modal si se hace clic fuera
+    window.onclick = function(event) {
+        let stockModal = document.getElementById("stockModal");
+        let filtroModal = document.getElementById("filtroModal");
+        if (event.target == stockModal) stockModal.style.display = "none";
+        if (event.target == filtroModal) filtroModal.style.display = "none";
+    }
+
+
+function generarPDF() {
+    const { jsPDF } = window.jspdf;
+    let doc = new jsPDF('l', 'pt', 'a4'); // 'l' = landscape
+
+    // Título
+    doc.setFontSize(18);
+    doc.text("Inventario de Productos - JJSweet", 40, 40);
+
+    // Tomar la tabla
+    let tabla = document.querySelector(".table-container table");
+    
+    // Preparar datos para el PDF
+    let datos = [];
+    for(let i = 0; i < tabla.rows.length; i++) {
+        let fila = [];
+        for(let j = 0; j < tabla.rows[i].cells.length; j++) {
+            // Ignorar la columna de Acciones (última)
+            if(j != tabla.rows[i].cells.length - 1){
+                fila.push(tabla.rows[i].cells[j].innerText);
+            }
+        }
+        datos.push(fila);
+    }
+
+    // Usar autoTable para dibujar la tabla
+    doc.autoTable({
+        head: [datos[0]],       // primera fila como encabezado
+        body: datos.slice(1),   // resto de filas
+        startY: 60,
+        styles: { fontSize: 10 },
+        headStyles: { fillColor: [41, 128, 185], textColor: 255 },
+        alternateRowStyles: { fillColor: [240, 240, 240] }
+    });
+
+    // Guardar PDF
+    doc.save("inventario.pdf");
+}
+</script>
+
+{% endblock %}
+
+
+
+
