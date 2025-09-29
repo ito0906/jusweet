@@ -41,7 +41,7 @@ def rol_requerido(*roles_permitidos):
     return decorador
 
 
-@app.route("/proyectojjsweet/login", methods=["GET", "POST"])
+@app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
         usuario = request.form["usuario"]
@@ -71,7 +71,7 @@ def login():
     return render_template("Login.html")
 
 
-@app.route('/proyectojjsweet/registro', methods=['GET', 'POST'])
+@app.route('/registro', methods=['GET', 'POST'])
 def registro():
     if request.method == 'POST':
         nombre = request.form['usuario']
@@ -139,7 +139,7 @@ def registro():
 
 
 # ---------- Index ----------
-@app.route("/proyectojjsweet/index")
+@app.route("/index")
 def index():
     if "usuario" not in session:
         return redirect(url_for("login"))
@@ -155,7 +155,7 @@ def index():
 
 
 # ---------- Otras páginas ----------
-@app.route("/proyectojjsweet/ventas")
+@app.route("/ventas")
 @rol_requerido('dueño', 'administrador', 'empleado')
 def ventas():
     if "usuario" not in session:
@@ -173,7 +173,7 @@ def ventas():
     return render_template("ventas.html", productos=productos, fecha_hoy=fecha_hoy)
 
 
-@app.route("/proyectojjsweet/buscar_cliente")
+@app.route("/buscar_cliente")
 def buscar_cliente():
     documento = request.args.get("documento")
     conn = conectar()
@@ -201,7 +201,7 @@ def buscar_cliente():
 
 
 
-@app.route("/proyectojjsweet/factura", methods=["POST"])
+@app.route("/factura", methods=["POST"])
 @rol_requerido('dueño', 'administrador', 'empleado')
 def factura():
     conn = conectar()
@@ -358,7 +358,7 @@ def factura():
     )   
 
 
-@app.route("/proyectojjsweet/factura/pdf/<int:id_ven>")
+@app.route("/factura/pdf/<int:id_ven>")
 @rol_requerido('dueño', 'administrador', 'empleado')
 def factura_pdf(id_ven):
     conn = conectar()
@@ -424,7 +424,7 @@ def factura_pdf(id_ven):
     )
 
 
-@app.route("/proyectojjsweet/factura/<int:id_ven>")
+@app.route("/factura/<int:id_ven>")
 @rol_requerido('dueño', 'administrador', 'empleado')
 def ver_factura(id_ven):
     conn = conectar()
@@ -488,7 +488,7 @@ def ver_factura(id_ven):
         pdf=False
     )
 
-@app.route("/proyectojjsweet/enviar_factura/<int:id_ven>")
+@app.route("/enviar_factura/<int:id_ven>")
 def enviar_factura(id_ven):
     # Obtener datos del cliente
     conn = conectar()
@@ -529,7 +529,7 @@ def enviar_factura(id_ven):
 
 
 
-@app.route("/proyectojjsweet/historial/eliminar/<int:id_ven>", methods=["POST"])
+@app.route("/eliminar/<int:id_ven>", methods=["POST"])
 @rol_requerido('dueño', 'administrador', 'empleado')
 def eliminar_venta(id_ven):
     if "usuario" not in session:
@@ -565,7 +565,7 @@ def eliminar_venta(id_ven):
     return redirect(url_for("historial"))
 
 
-@app.route("/proyectojjsweet/facturas_anuladas", methods=["GET", "POST"])
+@app.route("t/facturas_anuladas", methods=["GET", "POST"])
 @rol_requerido('dueño', 'administrador', 'empleado')
 def facturas_anuladas():
     if "usuario" not in session:
@@ -603,7 +603,7 @@ def facturas_anuladas():
 
 
 
-@app.route("/proyectojjsweet/historial", methods=["GET", "POST"])
+@app.route("/historial", methods=["GET", "POST"])
 def historial():
     conn = conectar()
     cur = conn.cursor()
@@ -645,7 +645,7 @@ def historial():
 
 
 
-@app.route("/proyectojjsweet/resumen")
+@app.route("/resumen")
 @rol_requerido('dueño', 'administrador', 'empleado')
 def resumen():
     if "usuario" not in session:
@@ -705,7 +705,7 @@ def resumen():
 
 
 
-@app.route('/proyectojjsweet/inventario')
+@app.route('/inventario')
 def inventario():
     conn = conectar()
     cur = conn.cursor()
@@ -718,7 +718,7 @@ def inventario():
 
 
 
-@app.route('/proyectojjsweet/agregar_producto', methods=["POST"])
+@app.route('/agregar_producto', methods=["POST"])
 @rol_requerido('dueño', 'administrador', )
 def agregar_producto():
     nombre = request.form["nombre"]
@@ -756,7 +756,7 @@ def agregar_producto():
 
 
 
-@app.route("/proyectojjsweet/inventario/eliminar/<int:id_prod>")
+@app.route("/inventario/eliminar/<int:id_prod>")
 @rol_requerido('dueño', 'administrador',)
 def eliminar_producto(id_prod):
     if "usuario" not in session:
@@ -771,7 +771,7 @@ def eliminar_producto(id_prod):
 
 
 
-@app.route("/proyectojjsweet/editar/<int:id_prod>", methods=["GET", "POST"])
+@app.route("/editar/<int:id_prod>", methods=["GET", "POST"])
 @rol_requerido('dueño', 'administrador',)
 def editar_producto(id_prod):
     conn = conectar()
@@ -822,7 +822,7 @@ def editar_producto(id_prod):
 
     return render_template("editar.html", producto=producto)
 
-@app.route("/proyectojjsweet/consulta")
+@app.route("/consulta")
 @rol_requerido('dueño', 'administrador', 'empleado')
 def consulta():
     conn = conectar()
@@ -861,7 +861,7 @@ def consulta():
     return render_template("consulta.html", productos=productos, categorias=categorias)
 
 
-@app.route("/proyectojjsweet/agregar_stock", methods=["POST"])
+@app.route("/agregar_stock", methods=["POST"])
 @rol_requerido('dueño', 'administrador',)
 def agregar_stock():
     id_prod = request.form["id_prod"]
@@ -882,7 +882,7 @@ def agregar_stock():
     return redirect(url_for("consulta"))  # <-- cámbialo por el nombre real de tu ruta de inventario
 
 
-@app.route('/proyectojjsweet/usuarios')
+@app.route('/usuarios')
 @rol_requerido('dueño', 'administrador',)
 def usuarios():
     conn = conectar()
@@ -897,7 +897,7 @@ def usuarios():
     return render_template('usuarios.html', usuarios=usuarios)
 
 
-@app.route('/proyectojjsweet/eliminar_usuario/<int:id>', methods=['POST'])
+@app.route('/eliminar_usuario/<int:id>', methods=['POST'])
 def eliminar_usuario(id):
     # 🔐 Solo dueño o administrador puede eliminar
     if session.get("rol") not in ["dueño", "administrador"]:
@@ -922,7 +922,7 @@ def eliminar_usuario(id):
 
 
 
-@app.route("/proyectojjsweet/logout")
+@app.route("/logout")
 def logout():
     session.clear()
     return redirect(url_for("login"))
